@@ -17,7 +17,14 @@
         android:id="@+id/readFragment"
         android:name="com.ubaya.uts_anmp_160420009.view.ReadFragment"
         android:label="ReadScreen"
-        tools:layout="@layout/fragment_read" />
+        tools:layout="@layout/fragment_read" >
+        <action
+            android:id="@+id/actionBack"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/actionNext"
+            app:destination="@id/readFragment" />
+    </fragment>
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.ubaya.uts_anmp_160420009.view.LoginFragment"

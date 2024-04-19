@@ -33,11 +33,11 @@ class ReadListAdapter(val beritaList:ArrayList<Berita>) {
         holder.binding.txtIsi.text = beritaList[position].isi
 
         holder.binding.btnNext.setOnClickListener{
-            val action = HomeFragmentDirections.actionDetail()
+            val action = ReadFragmentDirections.actionNext()
             Navigation.findNavController(it).navigate(action)
         }
         holder.binding.btnPrev.setOnClickListener{
-            val action = HomeFragmentDirections.actionDetail()
+            val action = ReadFragmentDirections.actionBack()
             Navigation.findNavController(it).navigate(action)
         }
     }
