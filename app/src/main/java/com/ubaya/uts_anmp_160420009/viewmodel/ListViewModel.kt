@@ -9,6 +9,9 @@ class ListViewModel:ViewModel() {
     val loadingErrorLD = MutableLiveData<Boolean>()
     val loadingDoneLD = MutableLiveData<Boolean>()
 
+    private val TAG ="volleyTag"
+    //private var queue:RequestQueue ?= null
+
     fun refresh(){
 
         val berita1 = Berita("http://dummyimage.com/100x75.png/cc0000/ffffff","I Hate Mondays, (Nie lubie poniedzialku)","Wileen","Occup of 3-whl mv injured in clsn w hv veh nontraf, subs","Sprain infraspinatus","Infraspinatus (muscle) (tendon) sprain")
@@ -17,6 +20,7 @@ class ListViewModel:ViewModel() {
 
         beritasLD.value = arrayListOf<Berita>(berita1, berita2, berita3)
         loadingErrorLD.value = false
-        loadingDoneLD.value = false
+        loadingDoneLD.value = true
+
     }
 }

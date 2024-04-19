@@ -20,23 +20,25 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        binding = FragmentHomeBinding.inflate(inflater, container, false)
+        return binding.root
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        //return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(this).get(ListViewModel::class.java)
+        viewModel = ViewModelProvider(this)[ListViewModel::class.java]
         viewModel.refresh()
 
-        binding.recyclerView.layoutManager = LinearLayoutManager(context)
-        binding.recyclerView.adapter = beritaListAdapter
+        binding.recView.layoutManager =LinearLayoutManager(context)
+        binding.recView.adapter = beritaListAdapter
 
         observeViewModel()
     }
 
-    fun observeViewModel(){
+    private fun observeViewModel(){
         viewModel.beritasLD.observe(viewLifecycleOwner, Observer {
             beritaListAdapter.updateBeritaList(it)
         })
@@ -52,10 +54,10 @@ class HomeFragment : Fragment() {
         viewModel.loadingDoneLD.observe(viewLifecycleOwner) {
             if (it) {
                 binding.progressBar.visibility = View.GONE
-                binding.recyclerView.visibility = View.VISIBLE
+                binding.recView.visibility = View.VISIBLE
             } else {
                 binding.progressBar.visibility = View.VISIBLE
-                binding.recyclerView.visibility = View.GONE
+                binding.recView.visibility = View.GONE
             }
         }
     }

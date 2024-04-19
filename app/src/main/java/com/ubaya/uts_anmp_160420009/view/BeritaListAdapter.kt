@@ -6,6 +6,7 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.ubaya.uts_anmp_160420009.R
 import com.ubaya.uts_anmp_160420009.databinding.FragmentDetailBinding
+import com.ubaya.uts_anmp_160420009.databinding.FragmentReadBinding
 import com.ubaya.uts_anmp_160420009.model.Berita
 
 class BeritaListAdapter(val beritaList:ArrayList<Berita>):RecyclerView.Adapter<BeritaListAdapter.BeritaViewHolder>() {
@@ -32,7 +33,7 @@ class BeritaListAdapter(val beritaList:ArrayList<Berita>):RecyclerView.Adapter<B
         holder.binding.txtDesc.text = beritaList[position].deskripsi
 
         holder.binding.btnRead.setOnClickListener{
-            val action = DetailFragmentDirections.actionRead()
+            val action = HomeFragmentDirections.actionDetail()
             Navigation.findNavController(it).navigate(action)
         }
     }
