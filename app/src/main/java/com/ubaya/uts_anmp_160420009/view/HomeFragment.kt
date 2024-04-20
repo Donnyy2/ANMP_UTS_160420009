@@ -35,6 +35,14 @@ class HomeFragment : Fragment() {
         binding.recView.layoutManager =LinearLayoutManager(context)
         binding.recView.adapter = beritaListAdapter
 
+        binding.refreshLayout.setOnRefreshListener {
+            binding.recView.visibility = View.GONE
+            binding.txtError.visibility = View.GONE
+            binding.progressBar.visibility = View.GONE
+            viewModel.refresh()
+            binding.refreshLayout.isRefreshing = false
+        }
+
         observeViewModel()
     }
 
@@ -51,14 +59,15 @@ class HomeFragment : Fragment() {
             }
         }
 
-        viewModel.loadingDoneLD.observe(viewLifecycleOwner) {
+        viewModel.loadingLD.observe(viewLifecycleOwner) {
             if (it) {
-                binding.progressBar.visibility = View.GONE
-                binding.recView.visibility = View.VISIBLE
-            } else {
                 binding.progressBar.visibility = View.VISIBLE
                 binding.recView.visibility = View.GONE
+            } else {
+                binding.progressBar.visibility = View.GONE
+                binding.recView.visibility = View.VISIBLE
             }
         }
     }
+
 }

@@ -3,14 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/home_navigation"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.ubaya.uts_anmp_160420009.view.HomeFragment"
         android:label="HomeScreen">
         <action
-            android:id="@+id/actionDetail"
+            android:id="@+id/actionRead"
             app:destination="@id/readFragment" />
     </fragment>
     <fragment

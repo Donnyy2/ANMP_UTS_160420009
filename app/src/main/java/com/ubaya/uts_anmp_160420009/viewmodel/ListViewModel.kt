@@ -1,26 +1,54 @@
 package com.ubaya.uts_anmp_160420009.viewmodel
 
+import android.app.Application
+import android.util.Log
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.android.volley.Request
+import com.android.volley.RequestQueue
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.ubaya.uts_anmp_160420009.model.Berita
 
-class ListViewModel:ViewModel() {
+class ListViewModel(application: Application):AndroidViewModel(application) {
     val beritasLD = MutableLiveData<ArrayList<Berita>>()
     val loadingErrorLD = MutableLiveData<Boolean>()
-    val loadingDoneLD = MutableLiveData<Boolean>()
+    val loadingLD = MutableLiveData<Boolean>()
 
     private val TAG ="volleyTag"
-    //private var queue:RequestQueue ?= null
+    private var queue:RequestQueue ?= null
 
     fun refresh(){
-
-        val berita1 = Berita("http://dummyimage.com/100x75.png/cc0000/ffffff","I Hate Mondays, (Nie lubie poniedzialku)","Wileen","Occup of 3-whl mv injured in clsn w hv veh nontraf, subs","Sprain infraspinatus","Infraspinatus (muscle) (tendon) sprain")
-        val berita2 = Berita("http://dummyimage.com/100x75.png/dddddd/000000","BloodRayne","Rodd","Strain musc and tendons at ank/ft level, unsp foot, sequela","Lymphoid mal NEC axilla","Other and unspecified malignant neoplasms of lymphoid and histiocytic tissue, lymph nodes of axilla and upper limb")
-        val berita3 = Berita("http://dummyimage.com/100x75.png/5fa2dd/ffffff","Grateful Dawg","Osborne","Toxic effect of tobacco and nicotine, accidental, init","One eye-moderate/oth-sev","Better eye: moderate vision impairment; lesser eye: severe vision impairment")
-
-        beritasLD.value = arrayListOf<Berita>(berita1, berita2, berita3)
         loadingErrorLD.value = false
-        loadingDoneLD.value = true
+        loadingLD.value = true
 
+        queue = Volley.newRequestQueue(getApplication())
+        var url = "http://10.0.2.2/CatsWorld/CatsWorld.php"
+
+        val stringRequest = StringRequest(Request.Method.GET, url,
+            { response ->
+                val sType = object : TypeToken<ArrayList<Berita>>() { }.type
+                val result = Gson().fromJson<ArrayList<Berita>>(response, sType )
+                beritasLD.value = result
+
+                loadingLD.value = false
+                Log.d("Showvolley", response.toString())
+            },
+            {
+                loadingErrorLD.value = true
+                loadingLD.value=false
+                Log.d("Showvolley", it.toString())
+            })
+
+        stringRequest.tag = TAG
+        queue?.add(stringRequest)
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        queue?.cancelAll(TAG)
     }
 }
